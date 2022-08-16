@@ -56,8 +56,8 @@ public class listeners implements Listener {
             Particle part = Particle.FLAME;
             Location loc = p.getLocation();
             Vector direction = loc.getDirection();
-            double distance = 3d;
-            double speed = 3d;
+            double distance = 1d;
+            double speed = 1d;
 
             p.getWorld().spawnParticle(part, loc, 0, direction.getX()*distance, direction.getY()*distance,
                     direction.getZ()*distance, speed);
