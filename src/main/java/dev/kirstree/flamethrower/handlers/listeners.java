@@ -53,13 +53,14 @@ public class listeners implements Listener {
                 p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HOE &&
                         e.getAction().equals(Action.LEFT_CLICK_AIR)){
 
-            Particle part = Particle.LAVA;
+            Particle part = Particle.FLAME;
             Location loc = p.getLocation();
             Vector direction = loc.getDirection();
-            double distance = 40d;
+            double distance = 3d;
+            double speed = 3d;
 
             p.getWorld().spawnParticle(part, loc, 0, direction.getX()*distance, direction.getY()*distance,
-                    direction.getZ()*distance);
+                    direction.getZ()*distance, speed);
         }
     }
 }
