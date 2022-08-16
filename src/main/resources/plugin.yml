@@ -1,0 +1,5 @@
+main: dev.kirstree.flamethrower.Flamethrower
+version: 1.0.0
+name: Flamethrower
+api-version: 1.18
+author: Kirstree
