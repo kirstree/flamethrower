@@ -50,18 +50,13 @@ public class listeners implements Listener {
     public void onInteractP(PlayerInteractEvent e){
         Player p = e.getPlayer();
 
-        /*if (p.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_HOE) &&
-                e.getAction().equals(Action.LEFT_CLICK_BLOCK) ||
-                p.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_HOE) &&
-                        e.getAction().equals(Action.LEFT_CLICK_AIR)) {
-
-            burn(p);
-        }*/
-        // now should only work with specific item instead of all diamond hoes
         if(e.getAction().equals(Action.LEFT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
-            String heldName = p.getInventory().getItemInMainHand().getItemMeta().getDisplayName();
-            if(heldName == flameName){
-                burn(p);
+            ItemMeta itemName = p.getInventory().getItemInMainHand().getItemMeta();
+            if(itemName != null){
+
+                if(itemName.getDisplayName().equals(flameName)){
+                    burn(p);
+                }
             }
         }
     }
