@@ -49,13 +49,18 @@ public class listeners implements Listener {
         Player p = e.getPlayer();
 
         if(p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HOE &&
-                e.getAction().equals(Action.LEFT_CLICK_BLOCK)){
+                e.getAction().equals(Action.LEFT_CLICK_BLOCK) ||
+                p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HOE &&
+                        e.getAction().equals(Action.LEFT_CLICK_AIR)){
 
-            Particle part = Particle.CRIMSON_SPORE;
+            Particle part = Particle.FLAME;
             Location loc = p.getLocation();
             Vector direction = loc.getDirection();
+            double distance = 1d;
+            double speed = 1d;
 
-            p.getWorld().spawnParticle();
+            p.getWorld().spawnParticle(part, loc, 0, direction.getX()*distance, direction.getY()*distance,
+                    direction.getZ()*distance, speed);
         }
     }
 }
