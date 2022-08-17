@@ -60,7 +60,7 @@ public class listeners implements Listener {
 
     public void shootParticle(Player p, Particle particle, double velocity) {
 
-            Location loc = p.getLocation();
+            Location loc = p.getEyeLocation();
             Vector direction = loc.getDirection();
             double distance = 1d;
 
