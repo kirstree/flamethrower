@@ -58,9 +58,14 @@ public class listeners implements Listener {
             Vector direction = loc.getDirection();
             double distance = 1d;
             double speed = 1d;
-
-            p.getWorld().spawnParticle(part, loc, 0, direction.getX()*distance, direction.getY()*distance,
-                    direction.getZ()*distance, speed);
+            int count = 30; // count is half the number of particles that will be spawned
+            double offsetAngle = 0.1d; //offsetAngle is the angle between particles. idk what kind of units it's using to rotate
+            direction.rotateAroundY(-1 * count * offsetAngle);
+                    for(int i = -count; i < count; i++){
+                        direction.rotateAroundY(offsetAngle);
+                        p.getWorld().spawnParticle(part, loc, 0, direction.getX(), direction.getY(),
+                                direction.getZ(), speed);
+                    }
         }
     }
 }
