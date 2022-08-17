@@ -1,11 +1,11 @@
 package dev.kirstree.flamethrower.handlers;
 
+import dev.kirstree.flamethrower.Flamethrower;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -45,22 +46,43 @@ public class listeners implements Listener {
     }
 
     @EventHandler
-    public void interactEvent(PlayerInteractEvent e) {
+    public void onInteractP(PlayerInteractEvent e){
         Player p = e.getPlayer();
 
-        if(p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HOE &&
+        if (p.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_HOE) &&
                 e.getAction().equals(Action.LEFT_CLICK_BLOCK) ||
-                p.getInventory().getItemInMainHand().getType() == Material.DIAMOND_HOE &&
-                        e.getAction().equals(Action.LEFT_CLICK_AIR)){
+                p.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_HOE) &&
+                        e.getAction().equals(Action.LEFT_CLICK_AIR)) {
 
-            Particle part = Particle.FLAME;
+            burn(p);
+        }
+    }
+
+    public void shootParticle(Player p, Particle particle, double velocity) {
+
             Location loc = p.getLocation();
             Vector direction = loc.getDirection();
             double distance = 1d;
-            double speed = 1d;
 
-            p.getWorld().spawnParticle(part, loc, 0, direction.getX()*distance, direction.getY()*distance,
-                    direction.getZ()*distance, speed);
-        }
+            p.getWorld().spawnParticle(particle, loc, 0, direction.getX()*distance, direction.getY()*distance,
+                    direction.getZ()*distance, velocity);
+
+    }
+
+    private final long durationMillis = 5000;
+
+    public void burn(Player p) {
+        new BukkitRunnable() {
+            final long startMilli = System.currentTimeMillis();
+
+            public void run() {
+                long difference = ((startMilli + durationMillis) - System.currentTimeMillis());
+
+                shootParticle(p, Particle.FLAME, 1.5);
+                if (difference < 0) {
+                    cancel();
+                }
+            }
+        }.runTaskTimer(Flamethrower.getInstance(), 0, 3);
     }
 }
